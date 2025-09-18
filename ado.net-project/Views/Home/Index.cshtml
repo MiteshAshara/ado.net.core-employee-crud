@@ -1,0 +1,77 @@
+﻿@model List<ado.net_project.model.Employee>
+
+
+<div class="container mt-4">
+    <div class="card shadow-none mb-5">
+        <div class="card-header">
+            <h4 class="text-secondary">Add New Employee</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="CreateEmployee" method="post">
+                <div class="form-group mb-2">
+                    <label for="Name" class="form-label">Name</label>
+                    <input name="Name" class="form-control" placeholder="Enter Name" required />
+                </div>
+                <div class="form-group mb-2">
+                    <label for="Position" class="form-label">Position</label>
+                    <input name="Position" class="form-control" placeholder="Enter Position" required />
+                </div>
+                <div class="form-group mb-2">
+                    <label for="Age" class="form-label">Age</label>
+                    <input name="Age" class="form-control" type="number" placeholder="Enter Age" required />
+                </div>
+                <div class="form-group mb-2">
+                    <label for="Email" class="form-label">Email</label>
+                    <input name="Email" class="form-control" type="email" placeholder="Enter Email" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Add Employee</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center mt-2">
+        <h2 class="text-secondary mb-3">Employees List</h2>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                int index = 1;
+                foreach (var emp in Model)
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@emp.Name</td>
+                        <td>@emp.Position</td>
+                        <td>@emp.Age</td>
+                        <td>@emp.Email</td>
+                        <td>
+                           <a asp-action="EditEmployee" asp-route-id="@emp.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <form asp-action="DeleteEmployee" asp-route-id="@emp.Id" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this employee?');">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    index++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center">No employee data available.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
